@@ -29,7 +29,7 @@ export const Contact = () => {
     setButtonText("Sending...");
     try {
       const response = await axios.post(
-        "http://localhost:5000/send-email",
+        "https://portfolio-v1-ecru-nine.vercel.app/send-email",
         formDetails
       );
       setButtonText("Sent");
