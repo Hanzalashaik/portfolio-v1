@@ -1,12 +1,8 @@
-// server.js
 const express = require("express");
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require("config");
-// import dotenv from "dotenv";
-// dotenv.config();
-
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,10 +17,10 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false,
+  secure: false, // true for 465, false for other ports
   auth: {
     user: "shaikhhanzala27@gmail.com",
-    pass: `${pass}`,
+    pass: pass,
   },
 });
 
@@ -35,14 +31,12 @@ app.post("/send-email", async (req, res) => {
     from: email,
     to: "shaikhhanzala27@gmail.com",
     subject: `Portfolio Message from ${firstName} ${lastName}`,
-    text: `${message}`,
+    text: message,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    res
-      .status(200)
-      .json({ success: true, message: "Email sent successfully ..." });
+    res.status(200).json({ success: true, message: "Email sent successfully ..." });
   } catch (error) {
     console.error("Error sending email: ", error);
     res.status(500).json({ success: false, message: "Failed to send email" });
