@@ -8,7 +8,11 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: 'https://www.hanzala.site', // Replace with your domain
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
 
 // Middleware to parse JSON
 app.use(bodyParser.json());
@@ -26,7 +30,6 @@ const transporter = nodemailer.createTransport({
 app.post('/send-email', async (req, res) => {
   const { firstName, lastName, email, message } = req.body;
   console.log(firstName, lastName, email, message);
-  
 
   const mailOptions = {
     from: email,
