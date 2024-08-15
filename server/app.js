@@ -9,8 +9,13 @@ const port = process.env.PORT || 5000;
 const pass = config.get("PASS");
 
 app.use(cors({
-  origin: 'https://portfolio-v1-b9wu.vercel.app'
+  origin: 'https://portfolio-v1-b9wu.vercel.app',
+  methods: ['GET', 'POST', 'OPTIONS'], // Allow necessary methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allow necessary headers
 }));
+
+// Handle preflight requests
+app.options('/send-email', cors());
 
 app.use(bodyParser.json());
 
