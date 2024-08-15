@@ -12,7 +12,10 @@ const app = express();
 const port = process.env.PORT || 5000;
 const pass = config.get("PASS");
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://portfolio-v1-b9wu.vercel.app'
+}));
+
 app.use(bodyParser.json());
 
 const transporter = nodemailer.createTransport({
