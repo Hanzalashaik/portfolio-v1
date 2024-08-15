@@ -35,13 +35,14 @@ export const Contact = () => {
       setButtonText("Sent");
       setStatus({ message: response.data.message, success: true });
       setFormDetails(formInitialDetails);
-      console.log(response);
+      console.log("Email sent successfully:", response);
 
       setTimeout(() => {
         setStatus({});
       }, 2000);
       
     } catch (error) {
+      console.error("Error sending email: ", error); // Improved error logging
       setStatus({ message: "Failed to send email", success: false });
     } finally {
       setButtonText("Send");
