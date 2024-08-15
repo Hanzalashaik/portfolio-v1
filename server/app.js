@@ -1,34 +1,32 @@
 import express from 'express';
-import cors from 'cors';
 import nodemailer from 'nodemailer';
-
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import config from 'config';
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Configure CORS
-app.use(cors({
-  origin: ['https://portfolio-v1-b9wu.vercel.app', 'https://www.hanzala.site'],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// Enable CORS
+app.use(cors());
 
-app.use(express.json());
+// Middleware to parse JSON
+app.use(bodyParser.json());
 
 // Configure nodemailer
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
+  service: 'gmail',
   auth: {
     user: 'shaikhhanzala27@gmail.com',
-    pass: "rpkk puyt bgip dlvg" // Use environment variables or secure storage for sensitive data
+    pass: config.get('PASS')
   },
 });
 
 // Handle /send-email route
 app.post('/send-email', async (req, res) => {
   const { firstName, lastName, email, message } = req.body;
+  console.log(firstName, lastName, email, message);
+  
 
   const mailOptions = {
     from: email,
@@ -39,7 +37,7 @@ app.post('/send-email', async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: 'Email sent successfully ...' });
+    res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).json({ success: false, message: 'Failed to send email' });

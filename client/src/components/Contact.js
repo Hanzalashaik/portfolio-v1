@@ -29,20 +29,19 @@ export const Contact = () => {
     setButtonText("Sending...");
     try {
       const response = await axios.post(
-        "https://portfolio-v1-azure.vercel.app/send-email",
+        "http://localhost:5000/send-email",
         formDetails
       );
       setButtonText("Sent");
       setStatus({ message: response.data.message, success: true });
       setFormDetails(formInitialDetails);
-      console.log("Email sent successfully:", response);
+      console.log(response);
 
       setTimeout(() => {
         setStatus({});
       }, 2000);
       
     } catch (error) {
-      console.error("Error sending email: ", error); // Improved error logging
       setStatus({ message: "Failed to send email", success: false });
     } finally {
       setButtonText("Send");
