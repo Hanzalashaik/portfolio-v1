@@ -5,48 +5,12 @@ const cors = require("cors");
 const config = require("config");
 
 const app = express();
-const port = process.env.PORT || 5000;
-const pass = config.get("PASS");
 
-app.use(cors({
-  origin: ['https://portfolio-v1-b9wu.vercel.app', 'https://www.hanzala.site'],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
-// Handle preflight requests
-app.options('/send-email', cors());
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+}); 
 
-app.use(bodyParser.json());
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "shaikhhanzala27@gmail.com",
-    pass: pass,
-  },
-});
-
-app.post("/send-email", async (req, res) => {
-  const { firstName, lastName, email, message } = req.body;
-
-  const mailOptions = {
-    from: email,
-    to: "shaikhhanzala27@gmail.com",
-    subject: `Portfolio Message from ${firstName} ${lastName}`,
-    text: message,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: "Email sent successfully ..." });
-  } catch (error) {
-    console.error("Error sending email: ", error);
-    res.status(500).json({ success: false, message: "Failed to send email" });
-  }
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
