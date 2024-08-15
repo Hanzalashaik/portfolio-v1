@@ -1,23 +1,21 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const config = require("config");
+import express from "express";
+import nodemailer from "nodemailer";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 5000;
-const pass = config.get("PASS");
+app.use(express.json());
 
-app.use(cors({
-  origin: 'https://portfolio-v1-b9wu.vercel.app',
-  methods: ['GET', 'POST', 'OPTIONS'], // Allow necessary methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allow necessary headers
-}));
+app.use(
+  cors({
+    origin: "https://portfolio-v1-b9wu.vercel.app",
+    methods: ["GET", "POST", "OPTIONS"], // Allow necessary methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+  })
+);
 
 // Handle preflight requests
-app.options('/send-email', cors());
-
-app.use(bodyParser.json());
+app.options("/send-email", cors());
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -25,7 +23,7 @@ const transporter = nodemailer.createTransport({
   secure: false, // true for 465, false for other ports
   auth: {
     user: "shaikhhanzala27@gmail.com",
-    pass: pass,
+    pass: "rpkk puyt bgip dlvg",
   },
 });
 
@@ -41,7 +39,9 @@ app.post("/send-email", async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: "Email sent successfully ..." });
+    res
+      .status(200)
+      .json({ success: true, message: "Email sent successfully ..." });
   } catch (error) {
     console.error("Error sending email: ", error);
     res.status(500).json({ success: false, message: "Failed to send email" });
