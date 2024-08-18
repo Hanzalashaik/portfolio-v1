@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 // Enable CORS
 app.use(cors({
-  origin: 'https://portfolio-v1-b9wu.vercel.app', // Replace with your domain
+  origin: 'https://portfolio-v1-ecru-nine.vercel.app', // Replace with your domain
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
